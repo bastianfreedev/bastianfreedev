@@ -1,0 +1,558 @@
+<div class="content">
+  <div>
+    <h3>Administración de Empleados</h3>
+    <h4>Filtro de Busqueda</h4>
+    <!--<small>{{ 'dashboard.WELCOME' | translate }} !</small>-->
+    <div>
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Crear Nuevo Empleado</h4>
+          <button
+            type="button"
+            class="close pull-right"
+            aria-label="Close"
+            (click)="modalRef.hide()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            <!--This is a modal.-->
+            <!--INICIO-->
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="run_empleado"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Run"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="codigo_empleado"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Codigo"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="nombres"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Nombres"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="ape_pat_empleado"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Apellido Paterno"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="ape_mat_empleado"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Apellido Materno"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="date"
+                id="dateOfBirth"
+                name="dateOfBirth"
+                bsDatePicker
+                formControlName="fecha_inicio_contrato"
+                class="form-control"
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="date"
+                id="dateOfBirth"
+                name="dateOfBirth"
+                bsDatePicker
+                formControlName="fecha_fin_contrato"
+                class="form-control"
+              />
+            </div>
+            <!--DATEPICKER-->
+            <!--INICIO-->
+            <!--<div class="row">
+            <div class="col-xs-12 col-12 col-md-4 form-group">
+              <input
+                type="text"
+                placeholder="Datepicker"
+                class="form-control"
+                bsDatepicker
+              />
+            </div>
+            <div class="col-xs-12 col-12 col-md-4 form-group">
+              <input
+                type="text"
+                placeholder="Daterangepicker"
+                class="form-control"
+                bsDaterangepicker
+              />
+            </div>
+          </div>-->
+            <!--FIN-->
+            <div class="input-group mb-3">
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Email"
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2"
+                formControlName="email"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2"
+                  >@femase.cl</span
+                >
+              </div>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="empleado_comuna"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Comuna"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="empleado_direccion"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Dirección"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="empleado_region"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Región"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="empleado_ciudad"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Ciudad"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="tipo_usuario"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Usuario"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="id_cargo"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Cargo"
+                required
+              />
+            </div>
+            <!-- <div class="input-group mb-3">
+              <select
+                class="custom-select"
+                id="inputGroupSelect01"
+                formControlName="estado"
+              >
+                <option
+                  *ngFor="let ente of enterprises"
+                  [value]="ente.codigo_empresa"
+                >
+                  {{ ente.estado }}
+                </option>
+                <option selected>Seleccionar Estado</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div> -->
+            <button
+              style="text-align: center; width: 220px"
+              type="button"
+              class="btn btn-danger mr-2"
+              (click)="modalRef.hide()"
+            >
+              Cancelar
+            </button>
+            <button
+              style="text-align: center; width: 220px"
+              type="submit"
+              [disabled]="!profileForm.valid"
+              class="btn btn-success ml-3"
+              (click)="modalRef.hide()"
+            >
+              Crear
+            </button>
+            <!--FIN-->
+          </form>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div class="card card-default">
+  <div class="card-header">
+    <div class="card-title"></div>
+  </div>
+  <div class="card-body">
+    <div class="row mb-4">
+      <div class="col-lg-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Run"
+          (keyup)="updateFilter($event)"
+        />
+      </div>
+      <div class="col-lg-8 text-right">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="openModal(template)"
+          id="crear_empresa"
+          name="crear_empresa"
+        >
+          CREAR EMPLEADOS
+        </button>
+      </div>
+    </div>
+    <ngx-datatable
+      #table
+      class="bootstrap no-detail-row"
+      [columns]="columns"
+      [columnMode]="'force'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="10"
+      [rows]="rowsFilter"
+    >
+      <ngx-datatable-column
+        name="Run"
+        prop="run_empleado"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Codigo"
+        prop="codigo_empleado"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Nombre" prop="nombres"></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Ape Pat"
+        prop="ape_pat_empleado"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Ape Mat"
+        prop="ape_mat_empleado"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Fecha Ini Contrato"
+        prop="fecha_inicio_contrato"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Fecha Fin Contrato"
+        prop="fecha_fin_contrato"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Email" prop="email"></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Comuna"
+        prop="empleado_comuna"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Dirección"
+        prop="empleado_direccion"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Región"
+        prop="empleado_region"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Ciudad"
+        prop="empleado_ciudad"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Usuario"
+        prop="tipo_usuario"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Cargo" prop="id_cargo"></ngx-datatable-column>
+      <ngx-datatable-column name="Estado" prop="estado"></ngx-datatable-column>
+      <ngx-datatable-column
+        name=""
+        prop="option"
+        [draggable]="false"
+        [resizeable]="false"
+        [width]="250"
+      >
+        <ng-template
+          ngx-datatable-cell-template
+          let-value="value"
+          let-rowIndex="rowIndex"
+          let-row="row"
+        >
+          <span>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="openModalEdit(templateEdit, row)"
+              id="crear_empresa"
+              name="crear_empresa"
+            >
+              Modificar
+            </button>
+            <ng-template #templateEdit>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">
+                  Modificar Empleados
+                  <!--{{ row.codigo_empresa }}-->
+                </h4>
+                <button
+                  type="button"
+                  class="close pull-right"
+                  aria-label="Close"
+                  (click)="modalRef.hide()"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="profileForm" (ngSubmit)="onSubmitUpdate()">
+                  <!--This is a modal.-->
+                  <!--INICIO-->
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="run_empleado"
+                      class="form-control"
+                      [value]="row.run_empleado"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Run"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="codigo_empleado"
+                      class="form-control"
+                      [value]="row.codigo_empleado"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Codigo"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="nombres"
+                      class="form-control"
+                      [value]="row.nombres"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Nombres"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="ape_pat_empleado"
+                      class="form-control"
+                      [value]="row.ape_pat_empleado"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Apellido Paterno"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="ape_mat_empleado"
+                      class="form-control"
+                      [value]="row.ape_mat_empleado"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Apellido Materno"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="date"
+                      [value]="row.fecha_inicio_contrato"
+                      id="dateOfBirth"
+                      name="dateOfBirth"
+                      bsDatePicker
+                      formControlName="fecha_inicio_contrato"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="date"
+                      [value]="row.fecha_fin_contrato"
+                      id="dateOfBirth"
+                      name="dateOfBirth"
+                      bsDatePicker
+                      formControlName="fecha_fin_contrato"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="input-group mb-3">
+                    <input
+                      type="email"
+                      [value]="row.email"
+                      class="form-control"
+                      placeholder="Email"
+                      aria-label="Recipient's username"
+                      aria-describedby="basic-addon2"
+                      formControlName="email"
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      [value]="row.empleado_comuna"
+                      formControlName="empleado_comuna"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Comuna"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      [value]="row.empleado_direccion"
+                      formControlName="empleado_direccion"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Dirección"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      [value]="row.empleado_region"
+                      formControlName="empleado_region"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Región"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      [value]="row.empleado_ciudad"
+                      formControlName="empleado_ciudad"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Ciudad"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      [value]="row.tipo_usuario"
+                      formControlName="tipo_usuario"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Usuario"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      [value]="row.id_cargo"
+                      formControlName="id_cargo"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Cargo"
+                      required
+                    />
+                  </div>
+                  <button
+                    style="text-align: center; width: 220px"
+                    type="button"
+                    class="btn btn-danger mr-2"
+                    (click)="modalRef.hide()"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    style="text-align: center; width: 220px"
+                    type="submit"
+                    class="btn btn-success ml-3"
+                    (click)="modalRef.hide()"
+                  >
+                    Guardar
+                  </button>
+                  <!--FIN-->
+                </form>
+              </div>
+            </ng-template>
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

@@ -1,0 +1,147 @@
+<div class="content">
+  <div>
+    <!--<h3>Administración de Empresas</h3>-->
+    <!--<h4>Filtro de Busqueda</h4>-->
+    <!--<small>{{ 'dashboard.WELCOME' | translate }} !</small>-->
+    <div>
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Crear Nuevo Registro</h4>
+          <button
+            type="button"
+            class="close pull-right"
+            aria-label="Close"
+            (click)="modalRef.hide()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!--This is a modal.-->
+          <!--INICIO-->
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Nombre</span
+              >
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+            />
+          </div>
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Etiqueta</span
+              >
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+            />
+          </div>
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >URL</span
+              >
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+            />
+          </div>
+          <button
+            style="text-align: center; width: 220px"
+            type="button"
+            class="btn btn-danger mr-2"
+          >
+            Cancelar
+          </button>
+          <button
+            style="text-align: center; width: 220px"
+            type="button"
+            class="btn btn-success ml-3"
+          >
+            Guardar
+          </button>
+          <!--FIN-->
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<nav class="navbar">
+  <span class="navbar-brand"></span>
+</nav>
+<div class="card card-default">
+  <div class="card-header">
+    <div class="card-title">Administración de Acceso</div>
+  </div>
+  <div class="card-body">
+    <div class="row mb-4">
+      <div class="col-lg-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nombre"
+          (keyup)="updateFilter($event)"
+        />
+      </div>
+      <div class="col-lg-8 text-right">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="openModal(template)"
+          id="crear_empresa"
+          name="crear_empresa"
+        >
+          CREAR ACCESO
+        </button>
+      </div>
+    </div>
+    <ngx-datatable
+      #table
+      class="bootstrap no-detail-row"
+      [columns]="columns"
+      [columnMode]="'force'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="10"
+      [rows]="rowsFilter"
+    >
+      <ngx-datatable-column name="Name" [width]="300"></ngx-datatable-column>
+      <ngx-datatable-column name="Gender"></ngx-datatable-column>
+      <ngx-datatable-column name="Age"></ngx-datatable-column>
+      <ngx-datatable-column name="Company" [width]="300"></ngx-datatable-column>
+      <ngx-datatable-column
+        name=""
+        prop="option"
+        [draggable]="false"
+        [resizeable]="false"
+        [width]="250"
+      >
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <span>
+            <button
+              class="optionButton"
+              type="button"
+              data-toggle="modal"
+              data-
+              target="#addOption"
+            >
+              Modificar
+            </button>
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

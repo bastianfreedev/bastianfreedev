@@ -1,0 +1,67 @@
+<div class="content">
+  <div>
+    <!--<h3>Administración de Empresas</h3>-->
+    <!--<h4>Filtro de Busqueda</h4>-->
+    <!--<small>{{ 'dashboard.WELCOME' | translate }} !</small>-->
+    <div></div>
+  </div>
+</div>
+<nav class="navbar">
+  <span class="navbar-brand"></span>
+</nav>
+<div class="card card-default">
+  <div class="card-header">
+    <div class="card-title">Log de Errores</div>
+  </div>
+  <div class="card-body">
+    <div class="row mb-4">
+      <div class="col-lg-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Fecha Inicio"
+          (keyup)="updateFilter($event)"
+        />
+      </div>
+      <div class="col-lg-8 text-right">
+        <button type="button" class="btn btn-primary">CVS</button>
+      </div>
+    </div>
+    <ngx-datatable
+      #table
+      class="bootstrap no-detail-row"
+      [columns]="columns"
+      [columnMode]="'force'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="10"
+      [rows]="rowsFilter"
+    >
+      <ngx-datatable-column name="Name" [width]="300"></ngx-datatable-column>
+      <ngx-datatable-column name="Gender"></ngx-datatable-column>
+      <ngx-datatable-column name="Age"></ngx-datatable-column>
+      <ngx-datatable-column name="Company" [width]="300"></ngx-datatable-column>
+      <ngx-datatable-column
+        name=""
+        prop="option"
+        [draggable]="false"
+        [resizeable]="false"
+        [width]="250"
+      >
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <span>
+            <button
+              class="optionButton"
+              type="button"
+              data-toggle="modal"
+              data-
+              target="#addOption"
+            >
+              Modificar
+            </button>
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

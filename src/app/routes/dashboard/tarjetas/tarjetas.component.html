@@ -1,0 +1,368 @@
+<div class="content">
+  <div>
+    <h3>Administración de Tarjetas</h3>
+    <h4>Filtro de Busqueda</h4>
+    <!--<small>{{ 'dashboard.WELCOME' | translate }} !</small>-->
+    <div>
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Crear Nueva Tarjeta</h4>
+          <button
+            type="button"
+            class="close pull-right"
+            aria-label="Close"
+            (click)="modalRef.hide()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            <!--This is a modal.-->
+            <!--INICIO-->
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="codigo_tarjeta"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Codigo"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="numero_tarjeta"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Numero"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  >Fecha Ingreso</span
+                >
+              </div>
+              <input
+                type="date"
+                id="dateOfBirth"
+                name="dateOfBirth"
+                bsDatePicker
+                formControlName="fecha_ingreso"
+                class="form-control"
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="id_usuario_ins"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Usuario"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  >Fecha Inserción</span
+                >
+              </div>
+              <input
+                type="date"
+                id="dateOfBirth"
+                name="dateOfBirth"
+                bsDatePicker
+                formControlName="fecha_ins"
+                class="form-control"
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="id_usuario_upd"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Usuario Actualizado"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="run_empleado"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Run"
+                required
+              />
+            </div>
+            <button
+              style="text-align: center; width: 220px"
+              type="button"
+              class="btn btn-danger mr-2"
+              (click)="modalRef.hide()"
+            >
+              Cancelar
+            </button>
+            <button
+              style="text-align: center; width: 220px"
+              type="submit"
+              [disabled]="!profileForm.valid"
+              class="btn btn-success ml-3"
+              (click)="modalRef.hide()"
+            >
+              Crear
+            </button>
+            <!--FIN-->
+          </form>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div class="card card-default">
+  <div class="card-header">
+    <div class="card-title"></div>
+  </div>
+  <div class="card-body">
+    <div class="row mb-4">
+      <div class="col-lg-2">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Codigo"
+          (keyup)="updateFilter($event)"
+        />
+      </div>
+      <div class="col-lg-2">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Numero"
+          (keyup)="updateFilterNumero($event)"
+        />
+      </div>
+      <div class="col-lg-8 text-right">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="openModal(template)"
+          id="crear_empresa"
+          name="crear_empresa"
+        >
+          CREAR TARJETA
+        </button>
+      </div>
+    </div>
+    <ngx-datatable
+      #table
+      class="bootstrap no-detail-row"
+      [columns]="columns"
+      [columnMode]="'force'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="10"
+      [rows]="rowsFilter"
+    >
+      <ngx-datatable-column
+        name="Codigo"
+        prop="codigo_tarjeta"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Numero"
+        prop="numero_tarjeta"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Fecha Ingreso"
+        prop="fecha_ingreso"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Estado" prop="estado"></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Id Usuario Inserción"
+        prop="id_usuario_ins"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Fecha Inserción"
+        prop="fecha_ins"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Id Usuario Actualizado"
+        prop="id_usuario_upd"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Fecha Actualizada"
+        prop="fecha_upd"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Run"
+        prop="run_empleado"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name=""
+        prop="option"
+        [draggable]="false"
+        [resizeable]="false"
+        [width]="250"
+      >
+        <ng-template
+          ngx-datatable-cell-template
+          let-value="value"
+          let-rowIndex="rowIndex"
+          let-row="row"
+        >
+          <span>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="openModalEdit(templateEdit, row)"
+              id="crear_empresa"
+              name="crear_empresa"
+            >
+              Modificar
+            </button>
+            <ng-template #templateEdit>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">
+                  Modificar Tarjetas
+                  <!--{{ row.codigo_empresa }}-->
+                </h4>
+                <button
+                  type="button"
+                  class="close pull-right"
+                  aria-label="Close"
+                  (click)="modalRef.hide()"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="profileForm" (ngSubmit)="onSubmitUpdate()">
+                  <!--This is a modal.-->
+                  <!--INICIO-->
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="codigo_tarjeta"
+                      class="form-control"
+                      [value]="row.codigo_tarjeta"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Codigo"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="numero_tarjeta"
+                      class="form-control"
+                      [value]="row.numero_tarjeta"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Nombre"
+                      required
+                    />
+                  </div>
+                  <!--<div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-sm"
+                        >Fecha Ingreso</span
+                      >
+                    </div>
+                    <input
+                      type="date"
+                      [value]="row.fecha_ingreso"
+                      id="dateOfBirth"
+                      name="dateOfBirth"
+                      bsDatePicker
+                      formControlName="fecha_ingreso"
+                      class="form-control"
+                    />
+                  </div>-->
+                  <!--<div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      [value]="row.id_usuario_ins"
+                      formControlName="id_usuario_ins"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Usuario"
+                      required
+                    />
+                  </div>-->
+                  <!--<div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-sm"
+                        >Fecha Inserción</span
+                      >
+                    </div>
+                    <input
+                      type="date"
+                      [value]="row.fecha_ins"
+                      id="dateOfBirth"
+                      name="dateOfBirth"
+                      bsDatePicker
+                      formControlName="fecha_ins"
+                      class="form-control"
+                    />
+                  </div>-->
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      [value]="row.id_usuario_upd"
+                      formControlName="id_usuario_upd"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Usuario Actualizado"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      [value]="row.run_empleado"
+                      formControlName="run_empleado"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Run"
+                      required
+                    />
+                  </div>
+                  <button
+                    style="text-align: center; width: 220px"
+                    type="button"
+                    class="btn btn-danger mr-2"
+                    (click)="modalRef.hide()"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    style="text-align: center; width: 220px"
+                    type="submit"
+                    class="btn btn-success ml-3"
+                    (click)="modalRef.hide()"
+                  >
+                    Guardar
+                  </button>
+                  <!--FIN-->
+                </form>
+              </div>
+            </ng-template>
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

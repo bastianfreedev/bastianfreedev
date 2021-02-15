@@ -1,0 +1,426 @@
+<div class="content">
+  <div>
+    <h3>Administración de Empresas</h3>
+    <h4>Filtro de Busqueda</h4>
+    <!--<small>{{ 'dashboard.WELCOME' | translate }} !</small>-->
+    <div>
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Crear Nueva Empresa</h4>
+          <button
+            type="button"
+            class="close pull-right"
+            aria-label="Close"
+            (click)="modalRef.hide()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            <!--This is a modal.-->
+            <!--INICIO-->
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="codigo_empresa"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Codigo"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="nombre_empresa"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Nombre"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="empresa_rut"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Rut"
+                (change)="validateRut($event.target.value)"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="empresa_direccion"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Dirección"
+                required
+              />
+            </div>
+            <div class="input-group mb-3">
+              <select
+                class="custom-select"
+                id="inputGroupSelect01"
+                formControlName="empresa_region"
+              >
+                <option *ngFor="let regi of regions" [value]="regi.id_region">
+                  {{ regi.nombre_region }}
+                </option>
+                <!--<option selected>Seleccionar Región</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>-->
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <select
+                class="custom-select"
+                id="inputGroupSelect01"
+                formControlName="empresa_ciudad"
+              >
+                <option *ngFor="let city of cities" [value]="city.id_ciudad">
+                  {{ city.nombre_ciudad }}
+                </option>
+                <!--<option selected>Seleccionar Ciudad</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>-->
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <select
+                class="custom-select"
+                id="inputGroupSelect01"
+                formControlName="empresa_comuna"
+              >
+                <option *ngFor="let comm of communes" [value]="comm.id_comuna">
+                  {{ comm.nombre_comuna }}
+                </option>
+                <!--<option selected>Seleccionar Comuna</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>-->
+              </select>
+            </div>
+            <!-- <div class="input-group mb-3">
+              <select
+                class="custom-select"
+                id="inputGroupSelect01"
+                formControlName="estado"
+              >
+                <option
+                  *ngFor="let ente of enterprises"
+                  [value]="ente.codigo_empresa"
+                >
+                  {{ ente.estado }}
+                </option>
+                <option selected>Seleccionar Estado</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div> -->
+            <button
+              style="text-align: center; width: 220px"
+              type="button"
+              class="btn btn-danger mr-2"
+              (click)="modalRef.hide()"
+            >
+              Cancelar
+            </button>
+            <button
+              style="text-align: center; width: 220px"
+              type="submit"
+              [disabled]="!profileForm.valid"
+              class="btn btn-success ml-3"
+              (click)="modalRef.hide()"
+            >
+              Crear
+            </button>
+            <!--FIN-->
+          </form>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div class="card card-default">
+  <div class="card-header">
+    <div class="card-title"></div>
+  </div>
+  <div class="card-body">
+    <div class="row mb-4">
+      <div class="col-lg-2">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Codigo"
+          (keyup)="updateFilter($event)"
+        />
+      </div>
+      <div class="col-lg-2">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nombre"
+          (keyup)="updateFilterNombre($event)"
+        />
+      </div>
+      <div class="col-lg-8 text-right">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="openModal(template)"
+          id="crear_empresa"
+          name="crear_empresa"
+        >
+          CREAR EMPRESA
+        </button>
+      </div>
+    </div>
+    <!--<ul>
+      <li *ngFor="let enterprise of enterprises | async">
+        {{ enterprise.name }}
+      </li>
+    </ul>-->
+    <!--{{ columns | json }}-->
+    <ngx-datatable
+      #table
+      class="bootstrap no-detail-row"
+      [columns]="columns"
+      [columnMode]="'force'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="10"
+      [rows]="rowsFilter"
+    >
+      <ngx-datatable-column
+        name="Codigo"
+        prop="codigo_empresa"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Ciudad"
+        prop="empresa_ciudad"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Comuna"
+        prop="empresa_comuna"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Dirección" prop="empresa_direccion">
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="Región"
+        prop="empresa_region"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Rut" prop="empresa_rut">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Estado" prop="estado"></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Nombre"
+        prop="nombre_empresa"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name=""
+        prop="option"
+        [draggable]="false"
+        [resizeable]="false"
+        [width]="250"
+      >
+        <ng-template
+          ngx-datatable-cell-template
+          let-value="value"
+          let-rowIndex="rowIndex"
+          let-row="row"
+        >
+          <span>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="openModalEdit(templateEdit, row)"
+              id="crear_empresa"
+              name="crear_empresa"
+            >
+              Modificar
+            </button>
+            <ng-template #templateEdit>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">
+                  Modificar Empresa
+                  <!--{{ row.codigo_empresa }}-->
+                </h4>
+                <button
+                  type="button"
+                  class="close pull-right"
+                  aria-label="Close"
+                  (click)="modalRef.hide()"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="profileForm" (ngSubmit)="onSubmitUpdate()">
+                  <!--This is a modal.-->
+                  <!--INICIO-->
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="codigo_empresa"
+                      class="form-control"
+                      [value]="row.codigo_empresa"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Codigo"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="nombre_empresa"
+                      [value]="row.nombre_empresa"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Nombre"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="empresa_rut"
+                      [value]="row.empresa_rut"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Rut"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="empresa_direccion"
+                      [value]="row.empresa_direccion"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Dirección"
+                      required
+                    />
+                  </div>
+                  <div class="input-group mb-3">
+                    <select
+                      class="custom-select"
+                      id="inputGroupSelect01"
+                      formControlName="empresa_region"
+                    >
+                      <option
+                        *ngFor="let regi of regions"
+                        [value]="regi.id_region"
+                        [selected]="
+                          regi.id === row.empresa_region ? true : false
+                        "
+                      >
+                        {{ regi.nombre_region }}
+                      </option>
+                      <!--<option selected>Seleccionar Región</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>-->
+                    </select>
+                  </div>
+                  <div class="input-group mb-3">
+                    <select
+                      class="custom-select"
+                      id="inputGroupSelect01"
+                      formControlName="empresa_ciudad"
+                    >
+                      <option
+                        *ngFor="let city of cities"
+                        [value]="city.id_ciudad"
+                        [selected]="
+                          city.id_ciudad === row.empresa_ciudad ? true : false
+                        "
+                      >
+                        {{ city.nombre_ciudad }}
+                      </option>
+                      <!--<option selected>Seleccionar Ciudad</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>-->
+                    </select>
+                  </div>
+                  <div class="input-group mb-3">
+                    <select
+                      class="custom-select"
+                      id="inputGroupSelect01"
+                      formControlName="empresa_comuna"
+                    >
+                      <option
+                        *ngFor="let comm of communes"
+                        [value]="comm.id_comuna"
+                        [selected]="
+                          comm.id_comuna === row.empresa_comuna ? true : false
+                        "
+                      >
+                        {{ comm.nombre_comuna }}
+                      </option>
+                      <!--<option selected>Seleccionar Comuna</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>-->
+                    </select>
+                  </div>
+                  <!-- <div class="input-group mb-3">
+                    <select
+                      class="custom-select"
+                      id="inputGroupSelect01"
+                      formControlName="estado"
+                    >
+                      <option
+                        *ngFor="let ente of enterprises"
+                        [value]="ente.codigo_empresa"
+                      >
+                        {{ ente.estado }}
+                      </option>
+                      <option selected>Seleccionar Estado</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                  </div> -->
+                  <button
+                    style="text-align: center; width: 220px"
+                    type="button"
+                    class="btn btn-danger mr-2"
+                    (click)="modalRef.hide()"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    style="text-align: center; width: 220px"
+                    type="submit"
+                    class="btn btn-success ml-3"
+                    (click)="modalRef.hide()"
+                  >
+                    Guardar
+                  </button>
+                  <!--FIN-->
+                </form>
+              </div>
+            </ng-template>
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

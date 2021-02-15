@@ -1,0 +1,248 @@
+<div class="content">
+  <div>
+    <h3>Administración de Sectores</h3>
+    <h4>Filtro de Busqueda</h4>
+    <!--<small>{{ 'dashboard.WELCOME' | translate }} !</small>-->
+    <div>
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Crear Nuevo Sector</h4>
+          <button
+            type="button"
+            class="close pull-right"
+            aria-label="Close"
+            (click)="modalRef.hide()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            <!--This is a modal.-->
+            <!--INICIO-->
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="codigo_sector"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Codigo"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="nombre_sector"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Nombre"
+                required
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <input
+                type="text"
+                formControlName="descripcion"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Descripción"
+                required
+              />
+            </div>
+            <!--<div class="input-group mb-3">
+            <select class="custom-select" id="inputGroupSelect01">
+              <option selected>Estado</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>-->
+            <button
+              style="text-align: center; width: 220px"
+              type="button"
+              class="btn btn-danger mr-2"
+              (click)="modalRef.hide()"
+            >
+              Cancelar
+            </button>
+            <button
+              style="text-align: center; width: 220px"
+              type="submit"
+              [disabled]="!profileForm.valid"
+              class="btn btn-success ml-3"
+              (click)="modalRef.hide()"
+            >
+              Crear
+            </button>
+            <!--FIN-->
+          </form>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div class="card card-default">
+  <div class="card-header">
+    <div class="card-title"></div>
+  </div>
+  <div class="card-body">
+    <div class="row mb-4">
+      <div class="col-lg-2">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Codigo"
+          (keyup)="updateFilter($event)"
+        />
+      </div>
+      <div class="col-lg-2">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nombre"
+          (keyup)="updateFilterNombre($event)"
+        />
+      </div>
+      <div class="col-lg-8 text-right">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="openModal(template)"
+          id="crear_empresa"
+          name="crear_empresa"
+        >
+          CREAR SECTOR
+        </button>
+      </div>
+    </div>
+    <ngx-datatable
+      #table
+      class="bootstrap no-detail-row"
+      [columns]="columns"
+      [columnMode]="'force'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="10"
+      [rows]="rowsFilter"
+    >
+      <ngx-datatable-column
+        name="Codigo"
+        prop="codigo_sector"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Nombre"
+        prop="nombre_sector"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Descripción"
+        prop="descripcion"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Estado" prop="estado"></ngx-datatable-column>
+      <ngx-datatable-column
+        name=""
+        prop="option"
+        [draggable]="false"
+        [resizeable]="false"
+        [width]="250"
+      >
+        <ng-template
+          ngx-datatable-cell-template
+          let-value="value"
+          let-rowIndex="rowIndex"
+          let-row="row"
+        >
+          <span>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="openModalEdit(templateEdit, row)"
+              id="crear_empresa"
+              name="crear_empresa"
+            >
+              Modificar
+            </button>
+            <ng-template #templateEdit>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">
+                  Modificar Sector
+                  <!--{{ row.codigo_empresa }}-->
+                </h4>
+                <button
+                  type="button"
+                  class="close pull-right"
+                  aria-label="Close"
+                  (click)="modalRef.hide()"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="profileForm" (ngSubmit)="onSubmitUpdate()">
+                  <!--This is a modal.-->
+                  <!--INICIO-->
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="codigo_sector"
+                      class="form-control"
+                      [value]="row.codigo_sector"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Codigo"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="nombre_sector"
+                      class="form-control"
+                      [value]="row.nombre_sector"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Nombre"
+                      required
+                    />
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <input
+                      type="text"
+                      formControlName="descripcion"
+                      class="form-control"
+                      [value]="row.descripcion"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      placeholder="Descripción"
+                      required
+                    />
+                  </div>
+                  <button
+                    style="text-align: center; width: 220px"
+                    type="button"
+                    class="btn btn-danger mr-2"
+                    (click)="modalRef.hide()"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    style="text-align: center; width: 220px"
+                    type="submit"
+                    class="btn btn-success ml-3"
+                    (click)="modalRef.hide()"
+                  >
+                    Guardar
+                  </button>
+                  <!--FIN-->
+                </form>
+              </div>
+            </ng-template>
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
